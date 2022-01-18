@@ -1,0 +1,12 @@
+html, body {
+  height: 100%;
+  margin: 0 auto;
+}
+
+#root{
+  height: inherit;
+}
+
+.App{
+  height: 100%;
+}
