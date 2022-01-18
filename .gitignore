@@ -1,8 +1,0 @@
-node_modules/
-logs/
-.DS_Store
-dist
-img
-dist-ssr
-*.local
-.env
