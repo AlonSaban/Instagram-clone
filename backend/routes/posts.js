@@ -5,6 +5,9 @@ const storage = multer.diskStorage({
     filename: (req, file, cb) => { cb(null, file.originalname) }
 })
 const upload = multer({ storage });
+const path = require('path');
+//  static requst
+// app.use(express.static(path.join(__dirname, 'public', 'frontend/src/img')));
 
 module.exports = (router) => {
     router.post('/api/feed/upload-post', create)

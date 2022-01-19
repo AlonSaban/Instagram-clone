@@ -5,12 +5,12 @@ app.use(express.json())
 const cors = require('cors')
 app.use(cors())
 const helmet = require('helmet')
+app.use(helmet())
 const morgan = require('morgan')
 const connectToDb = require('./backend/models')
 const cookieParser = require('cookie-parser');
-const router = express.Router();
-app.use(helmet())
 app.use(cookieParser())
+const router = express.Router();
 // app.use(morgan("common"))
 
 
