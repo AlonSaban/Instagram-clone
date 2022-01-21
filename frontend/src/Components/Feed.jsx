@@ -3,14 +3,12 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom';
 import { Card, CardHeader, CardContent, CardActions, TextField, Button, Avatar } from '@mui/material'
 import Topbar from './Topbar'
+import UploadPosts from '../Components/UploadPosts'
 import UploadPost from './UploadPost'
 import Post from './Post'
 import axios from "axios"
 import { UserContext } from '../../../backend/context/UserContext';
 import '../dist/Feed.css'
-// const photo = require('../img')
-import photo1 from '../img/photo1.png'
-import photo2 from '../img/Landscape1.png'
 
 
 export default function Feed({ username }) {
@@ -29,6 +27,7 @@ export default function Feed({ username }) {
     , [username, user._id])
   return (
     <div className="PostStyle">
+      {/* <UploadPosts /> */}
       <div className="FeedBody" >
         {posts.map((p) => (
           <Post key={p._id} post={p} />

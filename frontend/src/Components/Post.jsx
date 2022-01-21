@@ -41,7 +41,7 @@ function Post({ post }) {
   const [userLastName, setUserLastName] = useState("")
   const [comment, setComment] = useState("")
   const [disable, setDisable] = React.useState(false)
-
+  // const IMAGE_DIRECTORY = "../"
   const { user: currentUser } = useContext(UserContext)
 
   useEffect(() => {
@@ -111,7 +111,7 @@ function Post({ post }) {
           <h3>{userFirstName}</h3>
         </UserInfo>
 
-        <img src={post.img} alt="post-img" className="post_img" />
+        <img src={`backend/uploads/${post.img}`} alt="post-img" className="post_img" />
         {format(post.created)}
         <h6 className="date"></h6>
         <div className="LikeComponent">

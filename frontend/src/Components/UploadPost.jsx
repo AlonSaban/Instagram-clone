@@ -1,5 +1,4 @@
 import { useRef, useContext, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { Button, TextField, Dialog, InputLabel, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { UserContext } from '../../../backend/context/UserContext'
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
@@ -7,9 +6,10 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import axios from 'axios';
 import '../dist/UploadPost.css'
 
+
 function UploadPost() {
   const { user } = useContext(UserContext);
-  const [file, setFile] = useState();
+  const [file, setFile] = useState("");
   const [open, setOpen] = useState(false);
   const description = useRef()
 
@@ -21,22 +21,39 @@ function UploadPost() {
     setOpen(false);
   }
 
-  const upload = async (e) => {
-    // e.preventDefault();
-    console.log('hello');
+  const fileChangeHandler = e => {
+    // console.log(e.target.files[0])
+    setFile(e.target.files[0])
+  }
+
+  const upload = async () => {
+    // console.log(file)
     const newPost = {
       userId: user._id,
-      caption: description.current.value
+      caption: description.current.value,
+    }
+    if (file) {
+      const data = new FormData();
+      const fileName = Date.now() + "-" + file.name;
+      data.append("name", fileName)
+      data.append("image", file);
+      newPost.img = fileName
+      console.log(Array.from(data)[1][1]);
+      console.log(Array.from(data));
+      try {
+        await axios.post(`http://localhost:4000/api/upload`, data);
+      } catch (err) {
+        console.log(err)
+      }
     }
     try {
       await axios.post(`http://localhost:4000/api/feed/upload-post`, newPost);
-
+      setOpen(false);
     } catch (err) {
       console.log(err)
     }
-
-
   }
+
   return (
     <div>
       <div>
@@ -54,11 +71,12 @@ function UploadPost() {
               <InputLabel>
                 <input
                   type="file"
+                  name="image"
                   id="file"
                   style={{ display: "none" }}
                   label="file"
-                  accept=".png,.jpeg,/jpg"
-                  onChange={e => setFile(e.target.files[0])}
+                  accept=".png,.jpeg,.jpg"
+                  onChange={fileChangeHandler}
                   required />
               </InputLabel>
             </label>
@@ -71,12 +89,11 @@ function UploadPost() {
               type="text"
               fullWidth
               variant="standard"
-              required
-            />
+              required />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={upload}>Upload</Button>
+            <Button type="submit" onClick={upload}>Upload</Button>
           </DialogActions>
         </Dialog>
       </div>
