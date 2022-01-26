@@ -38,6 +38,7 @@ function Post({ post }) {
   const [likeSize, setLikeSize] = useState(40)
   const [likeColor, setLikeColor] = useState(grey);
   const [userFirstName, setUserFirstName] = useState("")
+  const [userId, setUserId] = useState("")
   const [userLastName, setUserLastName] = useState("")
   const [comment, setComment] = useState("")
   const [disable, setDisable] = React.useState(false)
@@ -51,10 +52,12 @@ function Post({ post }) {
   useEffect(
     async function fetchUser() {
       const res = await axios.get(`http://localhost:4000/api/users?userId=${post.userId}`)
-      // setUser(res.data)
+      setUser(res.data)
       setUserFirstName(res.data.firstName.toString())
       setUserLastName(res.data.lastName.toString())
-      // console.log(res.data.firstName)
+      setUserId(res.data._id)
+      // console.log(res.data);
+
     }, [post.userId])
 
   const likeHandler = () => {
@@ -65,10 +68,9 @@ function Post({ post }) {
     try {
       axios.put(`http://localhost:4000/api/posts/${post._id}/like`, { userId: currentUser._id })
     } catch (err) {
-      consoole.log(err)
+      console.log(err)
     }
   }
-
   function stringToColor(string) {
     let hash = 0;
     let i;
@@ -97,12 +99,13 @@ function Post({ post }) {
       children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
     };
   }
+  // console.log(userId)
 
   return (
     <div className="post">
       <PostMold>
         <div className="close-post">
-          <DeletePost disabled={disable} post={post} onClick={() => setDisable(true)} />
+          <DeletePost post={post} userId={userId} />
         </div>
         <UserInfo>
           <Link to={`/profile/alon`} style={{ textDecoration: 'none' }}>

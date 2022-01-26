@@ -44,15 +44,13 @@ async function deleteUser(req, res) {
 }
 
 async function getUser(req, res) {
-  // console.log('getUser is runing')
   const userId = req.query.userId;
   const username = req.query.username;
-  // console.log("user id: " + userId + ' usernmae: ' + username)
   try {
     const user = userId
       ? await UserSchema.findById(req.query.userId).lean()
       : await UserSchema.findOne({ firstName: username }).lean()
-    const { password, isAdmin, _id, ...allTheRest } = user
+    const { password, isAdmin, ...allTheRest } = user
     res.status(200).json(allTheRest)
   } catch (err) {
     return res.status(500).json(err)

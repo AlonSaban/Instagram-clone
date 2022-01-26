@@ -6,6 +6,7 @@ import Feed from './frontend/src/Components/Feed'
 import Home from './frontend/src/pages/Home'
 import Profile from './frontend/src/pages/Profile'
 import { UserContextProvider, UserContext } from './backend/context/UserContext'
+import ToggleColorMode from './frontend/src/Components/DarkMode'
 import './App.css'
 
 function App() {

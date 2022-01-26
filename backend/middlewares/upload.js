@@ -1,7 +1,10 @@
 const express = require('express')
 const app = express()
-const router = express.Router();
 const multer = require('multer');
+
+//  the static images file
+const path = require('path');
+app.use("/uploads", express.static(path.join(__dirname, 'backend/uploads/')));
 
 const fileStorageEngine = multer.diskStorage({
   destination: (req, file, cb) => { cb(null, "backend/uploads/") },
@@ -12,9 +15,6 @@ const fileStorageEngine = multer.diskStorage({
 })
 
 const upload = multer({ storage: fileStorageEngine });
-//  the static images file
-// const path = require('path');
-// app.use("/img", express.static(path.join(__dirname, 'frontend/src/img')));
 
 module.exports = {
   upload

@@ -27,7 +27,6 @@ function UploadPost() {
   }
 
   const upload = async () => {
-    // console.log(file)
     const newPost = {
       userId: user._id,
       caption: description.current.value,

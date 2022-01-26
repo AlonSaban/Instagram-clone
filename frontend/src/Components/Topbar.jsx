@@ -1,17 +1,30 @@
 import React, { useState, useContext, useRef } from 'react'
 import { Link } from 'react-router-dom';
 import { TextField, Button, Avatar } from '@mui/material'
+import { green, purple } from '@mui/material/colors'
 import styled from 'styled-components'
+import { ThemeProvider, createTheme } from '@material-ui/core/styles'
 import { UserContext } from '../../../backend/context/UserContext'
 import UploadPost from '../Components/UploadPost'
 import logo from '../img/logo.png'
 import '../dist/Topbar.css'
 
+// const Head = styled.div`
+//   background-color: darkMode ? "dark" : "light";
+// `;
 
 export default function Topbar() {
+  // console.log(darkModeIsOn)
+
+  const [darkMode, setDarkMode] = useState(darkModeIsOn)
+
+  const theme = createTheme({
+    palette: {
+      type: darkMode ? "dark" : "light",
+    },
+  })
 
   const user = useContext(UserContext).user
-
   function stringToColor(string) {
     let hash = 0;
     let i;
@@ -43,30 +56,32 @@ export default function Topbar() {
 
   return (
     <div>
-      <div className="FeedHeader">
-        <div className="Logo">
-          <Link to="/home" >
-            <img className="img" src={logo} alt="Photo booth" />
-          </Link>
-        </div>
-        <div>
-          <TextField
-            id="standard-search"
-            placeholder="search"
-            type="search"
-            variant="standard"
-          />
-        </div>
-        <div className="user-interface">
-          <UploadPost />
-          <Button>
-            <Link to={`/profile/${user.firstName}`} >
-              <Avatar src={user.profilePicture} {...stringAvatar(user.firstName + ' ' + user.lastName)} />
+      <ThemeProvider theme={theme}>
+        <div className="FeedHeader">
+          <div className="Logo">
+            <Link to="/home" >
+              <img className="img" src={logo} alt="Photo booth" />
             </Link>
-          </Button>
-          <Link to="/login" style={{ textDecoration: 'none', color: 'inherit' }}>Log out</Link>
+          </div>
+          <div>
+            <TextField
+              id="standard-search"
+              placeholder="search"
+              type="search"
+              variant="standard"
+            />
+          </div>
+          <div className="user-interface">
+            <UploadPost />
+            <Button>
+              <Link to={`/profile/${user.firstName}`} >
+                <Avatar src={user.profilePicture} {...stringAvatar(user.firstName + ' ' + user.lastName)} />
+              </Link>
+            </Button>
+            <Link to="/login" style={{ textDecoration: 'none', color: 'inherit' }}>Log out</Link>
+          </div>
         </div>
-      </div>
+      </ThemeProvider>
     </div>
   )
 }

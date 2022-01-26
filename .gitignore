@@ -1,6 +1,7 @@
 node_modules
 logs/
-uploads/
+.uploads
+uploads
 .DS_Store
 dist
 img

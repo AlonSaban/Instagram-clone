@@ -2,20 +2,20 @@ import { useState, useEffect, useContext } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom';
 import { Card, CardHeader, CardContent, CardActions, TextField, Button, Avatar } from '@mui/material'
-import Topbar from './Topbar'
-import UploadPosts from '../Components/UploadPosts'
-import UploadPost from './UploadPost'
 import Post from './Post'
 import axios from "axios"
 import { UserContext } from '../../../backend/context/UserContext';
+import ToggleColorMode from '../Components/DarkMode'
+
 import '../dist/Feed.css'
 
 
-export default function Feed({ username }) {
+export default function Feed({ username, theme }) {
   const [posts, setPosts] = useState([])
   const [data, setData] = useState({})
   const [text, setText] = useState("")
   const { user } = useContext(UserContext)
+
   useEffect(
     async function getPostsInfo() {
       const res = username
@@ -25,9 +25,9 @@ export default function Feed({ username }) {
       return res
     }
     , [username, user._id])
+
   return (
     <div className="PostStyle">
-      {/* <UploadPosts /> */}
       <div className="FeedBody" >
         {posts.map((p) => (
           <Post key={p._id} post={p} />
