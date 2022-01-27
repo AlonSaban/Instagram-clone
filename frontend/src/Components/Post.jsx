@@ -17,7 +17,7 @@ const PostMold = styled(Card)`
   border: 1em;
   border-color: lightgray;
   object-fit: fill;
-  background-color: white;
+  /* background-color: white; */
   padding: 8px 20px;
 `;
 const UserInfo = styled.div`
