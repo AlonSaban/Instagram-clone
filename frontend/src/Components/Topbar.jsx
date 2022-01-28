@@ -2,12 +2,12 @@ import React, { useState, useContext, useRef } from 'react'
 import { Link } from 'react-router-dom';
 import { Switch, Grid, Typography, Paper } from "@material-ui/core"
 import { TextField, Button, Avatar } from '@mui/material'
-import { green, purple } from '@mui/material/colors'
+import SearchIcon from '@mui/icons-material/Search';
 import styled from 'styled-components'
 import { ThemeProvider, createTheme } from '@material-ui/core/styles'
 import { UserContext } from '../../../backend/context/UserContext'
 import UploadPost from '../Components/UploadPost'
-import logo from '../img/logo.png'
+import logo from '../img/newlogo.png'
 import '../dist/Topbar.css'
 
 // const Head = styled.div`
@@ -44,7 +44,9 @@ export default function Topbar({ theme }) {
       children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
     };
   }
-
+  const clickHandeler = () => {
+    console.log('hello')
+  }
   return (
     <div>
       <div className="FeedHeader">
@@ -53,12 +55,18 @@ export default function Topbar({ theme }) {
             <img className="img" src={logo} alt="Photo booth" />
           </Link>
         </div>
-        <div>
+        <div className="searchBar">
           <TextField
             id="standard-search"
             placeholder="search"
             type="search"
             variant="standard"
+            InputProps={{
+              endAdornment: (
+                <Button onClick={clickHandeler}>
+                  <SearchIcon />
+                </Button>)
+            }}
           />
         </div>
         <div className="user-interface">

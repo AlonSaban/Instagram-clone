@@ -66,7 +66,7 @@ function UploadPost() {
               click the camera icon to upload your photo
             </DialogContentText>
             <label className="upload-img" htmlFor="file">
-              <CameraAltIcon fontSize='large' />
+              <CameraAltIcon color="primary" fontSize='large' />
               <InputLabel>
                 <input
                   type="file"
