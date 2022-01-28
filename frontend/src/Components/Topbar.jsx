@@ -64,7 +64,7 @@ export default function Topbar({ theme }) {
         <div className="user-interface">
           <UploadPost />
           <Button>
-            <Link to={`/profile/${user.firstName}`} >
+            <Link to={`/profile/${user.firstName}`} style={{ textDecoration: 'none', color: 'inherit' }} >
               <Avatar src={user.profilePicture} {...stringAvatar(user.firstName + ' ' + user.lastName)} />
             </Link>
           </Button>

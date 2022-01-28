@@ -6,7 +6,6 @@ import { Card, CardHeader, CardContent, CardActions, TextField, Button, Avatar }
 import Post from './Post'
 import axios from "axios"
 import { UserContext } from '../../../backend/context/UserContext';
-import ToggleColorMode from '../Components/DarkMode'
 
 import '../dist/Feed.css'
 

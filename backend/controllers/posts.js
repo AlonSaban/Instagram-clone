@@ -107,7 +107,6 @@ async function deletePost(req, res) {
 const setLike = async (req, res) => {
     try {
         const post = await PostSchema.findById(req.params.id).lean()
-        console.log(post.userId, req.body.userId)
         if (post.userId !== req.body.userId) {
             if (!post.likes.includes(req.body.userId)) {
                 await PostSchema.findByIdAndUpdate(req.params.id, { $push: { likes: req.body.userId } })
@@ -118,7 +117,8 @@ const setLike = async (req, res) => {
                 res.status(200).json("Post has been disliked")
             }
         } else {
-            console.log("you cant like your own post")
+            // console.log("you cant like your own post")
+            res.status(500).send("you cant like your own post")
         }
     } catch (err) {
         console.log(err)

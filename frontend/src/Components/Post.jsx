@@ -15,10 +15,11 @@ import '../dist/Post.css'
 const PostMold = styled(Card)`
   width: 780px;
   border: 1em;
-  border-color: lightgray;
   object-fit: fill;
+  border-color: lightgray;
   /* background-color: white; */
   padding: 8px 20px;
+  padding-bottom: 10px;
 `;
 const UserInfo = styled.div`
 display:flex;
@@ -32,18 +33,21 @@ width: auto;
 `;
 
 function Post({ post }) {
-  const [user, setUser] = useState({})
-  const [like, setLike] = useState(post.likes.length);
-  const [isLiked, setIsLiked] = useState(false)
-  const [likeSize, setLikeSize] = useState(40)
-  const [likeColor, setLikeColor] = useState(grey);
-  const [userFirstName, setUserFirstName] = useState("")
-  const [userId, setUserId] = useState("")
-  const [userLastName, setUserLastName] = useState("")
-  const [comment, setComment] = useState("")
-  const [disable, setDisable] = React.useState(false)
-  // const IMAGE_DIRECTORY = "../"
   const { user: currentUser } = useContext(UserContext)
+  const [user, setUser] = useState({
+    userFirstName: "",
+    userLastName: "",
+    userId: "",
+  })
+  const [isLiked, setIsLiked] = useState(false)
+  const [like, setLike] = useState(post.likes.length);
+  const [likeDetail, setLikeDetail] = useState({
+    likeSize: 40,
+    likeColor: grey,
+  })
+
+  const [comment, setComment] = useState("")
+  const [disable, setDisable] = useState(false)
 
   useEffect(() => {
     setIsLiked(post.likes.includes(currentUser._id))
@@ -52,21 +56,29 @@ function Post({ post }) {
   useEffect(
     async function fetchUser() {
       const res = await axios.get(`http://localhost:4000/api/users?userId=${post.userId}`)
-      setUser(res.data)
-      setUserFirstName(res.data.firstName.toString())
-      setUserLastName(res.data.lastName.toString())
-      setUserId(res.data._id)
+      setUser({
+        userFirstName: res.data.firstName.toString(),
+        userLastName: res.data.lastName.toString(),
+        userId: res.data._id,
+      })
       // console.log(res.data);
 
     }, [post.userId])
 
-  const likeHandler = () => {
-    setIsLiked(!isLiked)
-    setLike(isLiked ? like - 1 : like + 1)
-    setLikeColor(isLiked ? grey : red)
-    setLikeSize(isLiked ? 40 : 50)
+  const likeHandler = async () => {
     try {
-      axios.put(`http://localhost:4000/api/posts/${post._id}/like`, { userId: currentUser._id })
+      const response = axios.put(`http://localhost:4000/api/posts/${post._id}/like`, { userId: currentUser._id })
+      response.then((res) => {
+        if (res.status === 200) {
+          setIsLiked(!isLiked)
+          setLike(isLiked ? like - 1 : like + 1)
+          setLikeDetail({
+            likeSize: isLiked ? 40 : 50,
+            likeColor: isLiked ? grey : red,
+          })
+        }
+      })
+
     } catch (err) {
       console.log(err)
     }
@@ -103,18 +115,19 @@ function Post({ post }) {
 
   return (
     <div className="post">
-      <PostMold>
+      <div className="PostMold">
         <div className="close-post">
-          <DeletePost post={post} userId={userId} />
+          <DeletePost post={post} userId={user.userId} />
         </div>
         <UserInfo>
           <Link to={`/profile/alon`} style={{ textDecoration: 'none' }}>
-            <Avatar className="Avatar" {...stringAvatar(userFirstName + ' ' + userLastName)} />
+            <Avatar className="Avatar" {...stringAvatar(user.userFirstName + ' ' + user.userLastName)} />
           </Link>
-          <h3>{userFirstName}</h3>
+          <h3>{user.userFirstName}</h3>
         </UserInfo>
-
-        <img src={`backend/uploads/${post.img}`} alt="post-img" className="post_img" />
+        <div className="image">
+          <img src={`backend/uploads/${post.img}`} alt="post-img" className="post_img" style={{ width: "100%", height: "100%" }} />
+        </div>
         {format(post.created)}
         <h6 className="date"></h6>
         <div className="LikeComponent">
@@ -123,7 +136,7 @@ function Post({ post }) {
               m: 2,
             },
           }}>
-            <FavoriteIcon sx={{ display: "flex", color: likeColor[500], fontSize: likeSize }} onClick={likeHandler}>
+            <FavoriteIcon sx={{ display: "flex", color: likeDetail.likeColor[500], fontSize: likeDetail.likeSize }} onClick={likeHandler}>
               <Button />
             </FavoriteIcon>
           </div>
@@ -143,7 +156,7 @@ function Post({ post }) {
             onChange={e => setComment(e.target.value)}
           />
         </BottomPost>
-      </PostMold >
+      </div >
     </div>
   )
 }
