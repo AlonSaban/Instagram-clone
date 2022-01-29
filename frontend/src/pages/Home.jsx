@@ -20,14 +20,22 @@ export default function Home({ ColorModeContext }) {
   return (
     <div>
       <Paper>
-        <Topbar />
+        <Box
+          sx={{
+            bgcolor: 'background.default',
+            borderRadius: '1',
+            position: 'sticky',
+            top: '0',
+            zIndex: '1',
+          }}>
+          <Topbar theme={theme.palette.mode} />
+        </Box>
         <Box
           sx={{
             display: 'flex',
             width: '100%',
             alignItems: 'center',
             justifyContent: 'center',
-            // bgcolor: 'background.default',
             color: 'text.primary',
             borderRadius: 1,
             p: 3,

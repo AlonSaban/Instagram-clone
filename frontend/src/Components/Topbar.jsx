@@ -10,9 +10,7 @@ import UploadPost from '../Components/UploadPost'
 import logo from '../img/newlogo.png'
 import '../dist/Topbar.css'
 
-// const Head = styled.div`
-//   background-color: darkMode ? "dark" : "light";
-// `;
+
 
 export default function Topbar({ theme }) {
   const user = useContext(UserContext).user
@@ -45,39 +43,37 @@ export default function Topbar({ theme }) {
     };
   }
   const clickHandeler = () => {
-    console.log('hello')
+    console.log(theme)
   }
   return (
-    <div>
-      <div className="FeedHeader">
-        <div className="Logo">
-          <Link to="/home" >
-            <img className="img" src={logo} alt="Photo booth" />
+    <div className="FeedHeader">
+      <div className="Logo">
+        <Link to="/home" >
+          <img className="img" src={logo} alt="Photo booth" />
+        </Link>
+      </div>
+      <div className="searchBar">
+        <TextField
+          id="standard-search"
+          placeholder="search"
+          type="search"
+          variant="standard"
+          InputProps={{
+            endAdornment: (
+              <Button onClick={clickHandeler}>
+                <SearchIcon />
+              </Button>)
+          }}
+        />
+      </div>
+      <div className="user-interface">
+        <UploadPost />
+        <Button>
+          <Link to={`/profile/${user.firstName}`} style={{ textDecoration: 'none', color: 'inherit' }} >
+            <Avatar src={user.profilePicture} {...stringAvatar(user.firstName + ' ' + user.lastName)} />
           </Link>
-        </div>
-        <div className="searchBar">
-          <TextField
-            id="standard-search"
-            placeholder="search"
-            type="search"
-            variant="standard"
-            InputProps={{
-              endAdornment: (
-                <Button onClick={clickHandeler}>
-                  <SearchIcon />
-                </Button>)
-            }}
-          />
-        </div>
-        <div className="user-interface">
-          <UploadPost />
-          <Button>
-            <Link to={`/profile/${user.firstName}`} style={{ textDecoration: 'none', color: 'inherit' }} >
-              <Avatar src={user.profilePicture} {...stringAvatar(user.firstName + ' ' + user.lastName)} />
-            </Link>
-          </Button>
-          <Link to="/login" style={{ textDecoration: 'none', color: 'inherit' }}>Log out</Link>
-        </div>
+        </Button>
+        <Link to="/login" style={{ textDecoration: 'none', color: 'inherit' }}>Log out</Link>
       </div>
     </div>
   )
