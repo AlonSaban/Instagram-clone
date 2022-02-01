@@ -33,13 +33,4 @@ export const UserContextProvider = ({ children }) => {
       {children}
     </UserContext.Provider>
   )
-  //   {_id: "61c9cc1bbd81a3630d43cafe",
-  //   firstName: "alon",
-  //   lastName: "alon",
-  //   email: "alon@alon.com",
-  //   profilePicture: "",
-  //   followers: [],
-  //   following: [],
-  //   isAdmin: true,
-  // }
 };

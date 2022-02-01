@@ -1,6 +1,6 @@
 import { useReducer } from 'react'
 import axios from 'axios'
-import { UserContext } from '../../../backend/context/UserContext'
+import { UserContext } from '../../backend/context/UserContext'
 import CloseIcon from '@mui/icons-material/Close';
 import { Button } from '@mui/material'
 

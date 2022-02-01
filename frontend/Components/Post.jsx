@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Avatar from '@mui/material/Avatar'
 import { grey, red } from '@mui/material/colors';
-import { UserContext } from '../../../backend/context/UserContext'
+import { UserContext } from '../../backend/context/UserContext'
 import axios from "axios"
 import { format } from 'timeago.js';
 import Zoom from "@mui/material/Zoom";

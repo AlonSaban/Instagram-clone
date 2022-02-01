@@ -1,6 +1,6 @@
 import { useRef, useContext, useState } from 'react'
 import { Button, TextField, Dialog, InputLabel, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
-import { UserContext } from '../../../backend/context/UserContext'
+import { UserContext } from '../../backend/context/UserContext'
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import axios from 'axios';

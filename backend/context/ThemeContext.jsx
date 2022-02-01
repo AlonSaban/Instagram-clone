@@ -2,7 +2,7 @@ import { createContext, useMemo, useState } from 'react';
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
-import Home from '../../frontend/src/pages/Home'
+import Home from '../../frontend/pages/Home'
 
 const ColorModeContext = createContext({ toggleColorMode: () => { } });
 

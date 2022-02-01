@@ -5,7 +5,7 @@ import { TextField, Button, Avatar } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import styled from 'styled-components'
 import { ThemeProvider, createTheme } from '@material-ui/core/styles'
-import { UserContext } from '../../../backend/context/UserContext'
+import { UserContext } from '../../backend/context/UserContext'
 import UploadPost from '../Components/UploadPost'
 import logo from '../img/newlogo.png'
 import '../dist/Topbar.css'
