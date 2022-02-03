@@ -22,7 +22,6 @@ function UploadPost() {
   }
 
   const fileChangeHandler = e => {
-    // console.log(e.target.files[0])
     setFile(e.target.files[0])
   }
 
@@ -41,6 +40,7 @@ function UploadPost() {
       console.log(Array.from(data));
       try {
         await axios.post(`http://localhost:4000/api/upload`, data);
+        window.location.reload();
       } catch (err) {
         console.log(err)
       }

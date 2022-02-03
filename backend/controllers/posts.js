@@ -30,9 +30,9 @@ async function getOne(req, res) {
         res.status(500).json(err);
     }
 }
+
 // feed posts
 async function getPosts(req, res) {
-    // console.log('getPost is runing posts/timline')
     try {
         const currentUser = await UserSchema.findById(req.params.userId).lean()
         const userPosts = await PostSchema.find({ userId: currentUser._id }).lean()

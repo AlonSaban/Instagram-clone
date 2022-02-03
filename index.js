@@ -9,9 +9,10 @@ app.use(helmet())
 const cookieParser = require('cookie-parser');
 app.use(cookieParser())
 app.use(express.static('uploads'))
-
-
+const path = require('path')
 const connectToDb = require('./backend/models')
+
+
 connectToDb()
     .then(() => {
         app.listen(process.env.PORT || 4000, () => {
@@ -19,6 +20,8 @@ connectToDb()
         })
     })
 
+// making the route to the constant images static so it wont need to send request every time
+app.use("/img", express.static(path.join(__dirname, 'frontend/img')))
 
 require('./backend/routes/users')(app);
 require('./backend/routes/posts')(app);

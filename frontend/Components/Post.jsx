@@ -61,8 +61,6 @@ function Post({ post }) {
         userLastName: res.data.lastName.toString(),
         userId: res.data._id,
       })
-      // console.log(res.data);
-
     }, [post.userId])
 
   const likeHandler = async () => {
@@ -87,7 +85,6 @@ function Post({ post }) {
     let hash = 0;
     let i;
 
-    /* eslint-disable no-bitwise */
     for (i = 0; i < string.length; i += 1) {
       hash = string.charCodeAt(i) + ((hash << 5) - hash);
     }
@@ -111,7 +108,6 @@ function Post({ post }) {
       children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
     };
   }
-  // console.log(userId)
 
   return (
     <div className="post">
@@ -126,7 +122,7 @@ function Post({ post }) {
           <h3>{user.userFirstName}</h3>
         </UserInfo>
         <div className="image">
-          <img src={`backend/uploads/${post.img}`} alt="post-img" className="post_img" style={{ width: "100%", height: "100%" }} />
+          <img src={`/backend/uploads/${post.img}`} alt="post-img" className="post_img" style={{ width: "100%", height: "100%" }} />
         </div>
         {format(post.created)}
         <h6 className="date"></h6>
