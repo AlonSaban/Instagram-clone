@@ -54,7 +54,7 @@ async function getUserPosts(req, res) {
     try {
         const user = await UserSchema.findOne({ firstName: req.params.username })
         const posts = await PostSchema.find({ userId: user._id })
-        res.status(200).json(posts);
+        res.status(200).json(posts.sort((a, b) => (a.created < b.created) ? 1 : (a.created > b.created) ? -1 : 0));
     } catch (err) {
         res.status(500).json(err)
     }
