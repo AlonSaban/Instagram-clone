@@ -4,7 +4,7 @@ const ObjectId = mongoose.Schema.ObjectId;
 
 const PostSchema = new mongoose.Schema({
     userId: { type: String, required: true },
-    img: { type: String },
+    img: { type: String, default: "" },
     caption: { type: String, required: true },
     likes: { type: Array, default: 0 },
     comments: { type: String, required: false },

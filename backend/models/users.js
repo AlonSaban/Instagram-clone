@@ -6,7 +6,7 @@ const UserSchema = new mongoose.Schema({
     lastName: { type: String, min: 2, required: true },
     email: { type: String, requierd: true, unique: true, validate: (value = '') => value.includes('@') },
     password: { type: String, min: 3, required: true },
-    profilePicture: { type: String, default: "", required: false },
+    profilePicture: { type: String },
     followers: { type: Array, default: [], required: false },
     following: { type: Array, default: [], required: false },
     posts: { type: Array, default: [], required: false },

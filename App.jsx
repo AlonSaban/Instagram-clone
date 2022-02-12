@@ -3,10 +3,10 @@ import { useState, useMemo, useContext } from 'react'
 import Login from './frontend/pages/Login'
 import Register from './frontend/pages/Register'
 import Feed from './frontend/Components/Feed'
-// import Home from './frontend/src/pages/Home'
+import Home from './frontend/pages/Home'
 import Profile from './frontend/pages/Profile'
 import { UserContextProvider, UserContext } from './backend/context/UserContext'
-import ToggleColorMode from './backend/context/ThemeContext'
+import PageWrapper from './frontend/pages/PageWrapper';
 import './App.css'
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route exact path="/feed" element={<Feed />} />
-          <Route exact path="/home" element={<ToggleColorMode />} />
+          <Route exact path="/home" element={<PageWrapper />} />
           <Route path="/profile/:username" element={<Profile />} />
         </Routes>
       </UserContextProvider>

@@ -2,17 +2,7 @@ import { createContext, useReducer } from 'react';
 import UserReducer from './UserReducer';
 
 const INITIAL_STATE = {
-  user:
-  {
-    _id: "61c9cc1bbd81a3630d43cafe",
-    firstName: "alon",
-    lastName: "alon",
-    email: "alon@alon.com",
-    profilePicture: "",
-    followers: [],
-    following: [],
-    isAdmin: true,
-  },
+  user: null,
   isFetching: false,
   error: false,
 }
@@ -34,3 +24,11 @@ export const UserContextProvider = ({ children }) => {
     </UserContext.Provider>
   )
 };
+// _id: "61c9cc1bbd81a3630d43cafe",
+// firstName: "alon",
+// lastName: "alon",
+// email: "alon@alon.com",
+// profilePicture: "",
+// followers: ["61c9cba4bd81a3630d43cafb"],
+// following: ["61c9cba4bd81a3630d43cafb"],
+// isAdmin: true,

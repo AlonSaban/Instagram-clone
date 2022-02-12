@@ -5,20 +5,28 @@ import { TextField, Button, Avatar } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import styled from 'styled-components'
 import { ThemeProvider, createTheme } from '@material-ui/core/styles'
+import { useTheme } from '@mui/material/styles';
 import { UserContext } from '../../backend/context/UserContext'
+import IconButton from '@mui/material/IconButton';
+import Box from '@mui/material/Box';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 import UploadPost from '../Components/UploadPost'
-import logo from '../img/newlogo.png'
+import logo from '../img/Logo.png'
 import '../dist/Topbar.css'
 
 
 
-export default function Topbar({ theme }) {
+export default function Topbar({ ColorModeContext }) {
   const user = useContext(UserContext).user
+
+  const theme = useTheme();
+  const colorMode = useContext(ColorModeContext);
+
   function stringToColor(string) {
     let hash = 0;
     let i;
 
-    /* eslint-disable no-bitwise */
     for (i = 0; i < string.length; i += 1) {
       hash = string.charCodeAt(i) + ((hash << 5) - hash);
     }
@@ -29,8 +37,6 @@ export default function Topbar({ theme }) {
       const value = (hash >> (i * 8)) & 0xff;
       color += `00${value.toString(16)}`.substr(-2);
     }
-    /* eslint-enable no-bitwise */
-
     return color;
   }
 
@@ -47,10 +53,28 @@ export default function Topbar({ theme }) {
   }
   return (
     <div className="FeedHeader">
-      <div className="Logo">
-        <Link to="/home" >
-          <img className="img" src={logo} alt="Photo booth" />
-        </Link>
+      < div className="left-side">
+        <div className="Logo">
+          <Link to="/home" >
+            <img className="img" src={logo} alt="Photo booth" />
+          </Link>
+        </div>
+        <Box
+          sx={{
+            display: 'flex',
+            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'text.primary',
+            borderRadius: 1,
+            p: 3,
+          }}
+        >
+          {theme.palette.mode} mode
+          <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
+            {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+          </IconButton>
+        </Box>
       </div>
       <div className="searchBar">
         <TextField

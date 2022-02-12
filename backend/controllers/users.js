@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken')
 const UserSchema = require('../models/users')
 const bcrypt = require('bcrypt')
+const User = require('../models/users')
 
 
 async function createUser(req, res) {
@@ -13,6 +14,7 @@ async function createUser(req, res) {
       lastName: req.body.lastName,
       password: hashedPassword,
       email: req.body.email,
+      profilePicture: req.body.profilePicture,
     })
     await user.save()
     res
@@ -46,10 +48,12 @@ async function deleteUser(req, res) {
 async function getUser(req, res) {
   const userId = req.query.userId;
   const username = req.query.username;
+
   try {
     const user = userId
-      ? await UserSchema.findById(req.query.userId).lean()
+      ? await UserSchema.findById(userId).lean()
       : await UserSchema.findOne({ firstName: username }).lean()
+    // console.log(user)
     const { password, isAdmin, ...allTheRest } = user
     res.status(200).json(allTheRest)
   } catch (err) {
@@ -78,10 +82,32 @@ async function setfollowUser(req, res) {
     res.status(403).json("you cant follow yourself")
   }
 }
+async function getFriends(req, res) {
+  const userId = req.params.userId
+  try {
+    const user = await UserSchema.findById(userId).lean();
+    const friends = await Promise.all(
+      user.following.map(friendId => {
+        return UserSchema.findById(friendId);
+      })
+    )
+    let friendsList = []
+
+    friends.map((friend) => {
+      const { _id, firstName, profilePicture, ...allTheRest } = friend;
+      friendsList.push({ _id, firstName, profilePicture })
+    })
+
+    res.status(200).json(friendsList)
+  } catch (err) {
+    res.status(500).json(err)
+  }
+}
 module.exports = {
   createUser,
   updateUser,
   deleteUser,
   getUser,
-  setfollowUser
+  setfollowUser,
+  getFriends
 }

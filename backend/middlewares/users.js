@@ -2,7 +2,7 @@ const UserSchema = require('../models/users')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-async function getUserById(req, res, next) {
+async function checkUser(req, res, next) {
     if (req.body.userId === req.params.id || req.body.isAdmin) {
         if (req.body.password) {
             try {
@@ -20,7 +20,7 @@ async function getUserById(req, res, next) {
 }
 
 // authenticate user. checking if the user suppose to have permission
-async function checkUser(req, res, next) {
+async function authenticateUser(req, res, next) {
 
     console.log(req.headers.cookie);
     try {
@@ -56,7 +56,7 @@ async function validateUser(req, res) {
 }
 
 module.exports = {
-    getUserById,
     checkUser,
+    authenticateUser,
     validateUser
 };

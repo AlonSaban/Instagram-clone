@@ -1,53 +1,30 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { Card, Button, TextField } from '@mui/material'
-import styled from 'styled-components';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Avatar from '@mui/material/Avatar'
 import { grey, red } from '@mui/material/colors';
 import { UserContext } from '../../backend/context/UserContext'
 import axios from "axios"
 import { format } from 'timeago.js';
-import Zoom from "@mui/material/Zoom";
 import DeletePost from './DeletePost'
 import '../dist/Post.css'
 
-const PostMold = styled(Card)`
-  width: 780px;
-  border: 1em;
-  object-fit: fill;
-  border-color: lightgray;
-  /* background-color: white; */
-  padding: 8px 20px;
-  padding-bottom: 10px;
-`;
-const UserInfo = styled.div`
-display:flex;
-padding: 3px;
-align-items: center;
-/* justify-content: flex-start; */
-`;
-const BottomPost = styled.div`
-border-top: 1px solid lightgray;
-width: auto;
-`;
 
 function Post({ post }) {
   const { user: currentUser } = useContext(UserContext)
+  const [comment, setComment] = useState("")
+  const [isLiked, setIsLiked] = useState(false)
+  const [like, setLike] = useState(post.likes.length);
   const [user, setUser] = useState({
     userFirstName: "",
     userLastName: "",
     userId: "",
   })
-  const [isLiked, setIsLiked] = useState(false)
-  const [like, setLike] = useState(post.likes.length);
   const [likeDetail, setLikeDetail] = useState({
     likeSize: 40,
     likeColor: grey,
   })
-
-  const [comment, setComment] = useState("")
-  const [disable, setDisable] = useState(false)
 
   useEffect(() => {
     setIsLiked(post.likes.includes(currentUser._id))
@@ -76,11 +53,11 @@ function Post({ post }) {
           })
         }
       })
-
     } catch (err) {
       console.log(err)
     }
   }
+
   function stringToColor(string) {
     let hash = 0;
     let i;
@@ -115,12 +92,12 @@ function Post({ post }) {
         <div className="close-post">
           <DeletePost post={post} userId={user.userId} />
         </div>
-        <UserInfo>
-          <Link to={`/profile/alon`} style={{ textDecoration: 'none' }}>
+        <div className="UserInfo">
+          <Link to={`/profile/${user.userFirstName}`} style={{ textDecoration: 'none' }}>
             <Avatar className="Avatar" {...stringAvatar(user.userFirstName + ' ' + user.userLastName)} />
           </Link>
           <h3>{user.userFirstName}</h3>
-        </UserInfo>
+        </div>
         <div className="image">
           <img src={`/backend/uploads/${post.img}`} alt="post-img" className="post_img" style={{ width: "100%", height: "100%" }} />
         </div>
@@ -142,7 +119,7 @@ function Post({ post }) {
           <h4>{post.caption}</h4>
           <h3>{comment}</h3>
         </div>
-        <BottomPost>
+        <div className="BottomPost">
           <TextField
             className="comment"
             placeholder="Add a comment"
@@ -151,7 +128,7 @@ function Post({ post }) {
             value={comment}
             onChange={e => setComment(e.target.value)}
           />
-        </BottomPost>
+        </div >
       </div >
     </div>
   )
