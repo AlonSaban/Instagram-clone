@@ -46,6 +46,7 @@ export default function Profile() {
               {currentUser.profilePicture}
               <h2>Profile of: {followingPic}{username}</h2>
               <Avatar src={`./backend/uploads/${currentUser.profilePicture}`} />
+              <h2>{currentUser.desc}</h2>
               <h3>Following: {followingName}</h3>
               <h3>Followers: {followers}</h3>
             </Box>

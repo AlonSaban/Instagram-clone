@@ -1,5 +1,5 @@
 const { checkUser, authenticateUser, validateUser } = require('../middlewares/users')
-const { createUser, updateUser, deleteUser, getUser, setfollowUser, getFriends } = require('../controllers/users')
+const { createUser, updateUser, deleteUser, getUser, setfollowUser, getFriends, getUsers } = require('../controllers/users')
 
 
 module.exports = router => {
@@ -9,5 +9,6 @@ module.exports = router => {
   router.delete('/api/:id', checkUser, deleteUser)
   router.get('/api/users/', getUser)
   router.get('/api/friend/:userId', getFriends)
+  router.get('/api/search/:userName', getUsers)
   router.put('/api/:id/follow', setfollowUser)
 }

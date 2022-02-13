@@ -47,6 +47,7 @@ async function deleteUser(req, res) {
 
 async function getUser(req, res) {
   const userId = req.query.userId;
+  // const username = req.params.userName;
   const username = req.query.username;
 
   try {
@@ -103,11 +104,24 @@ async function getFriends(req, res) {
     res.status(500).json(err)
   }
 }
+async function getUsers(req, res) {
+  const username = req.params.userName
+  try {
+    const users = await UserSchema.find({ firstName: username })
+    let usersList = [];
+    users.map((user) => usersList.push(user))
+
+    res.status(200).json(usersList)
+  } catch (err) {
+    res.status(500).json(err)
+  }
+}
 module.exports = {
   createUser,
   updateUser,
   deleteUser,
   getUser,
   setfollowUser,
-  getFriends
+  getFriends,
+  getUsers
 }

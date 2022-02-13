@@ -1,27 +1,26 @@
 import React, { useState, useContext, useRef } from 'react'
 import { Link } from 'react-router-dom';
-import { Switch, Grid, Typography, Paper } from "@material-ui/core"
 import { TextField, Button, Avatar } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
-import styled from 'styled-components'
-import { ThemeProvider, createTheme } from '@material-ui/core/styles'
 import { useTheme } from '@mui/material/styles';
 import { UserContext } from '../../backend/context/UserContext'
 import IconButton from '@mui/material/IconButton';
 import Box from '@mui/material/Box';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
+import axios from 'axios'
 import UploadPost from '../Components/UploadPost'
 import logo from '../img/Logo.png'
+import SearchUser from "./Search"
 import '../dist/Topbar.css'
 
 
 
 export default function Topbar({ ColorModeContext }) {
   const user = useContext(UserContext).user
-
   const theme = useTheme();
   const colorMode = useContext(ColorModeContext);
+  const search = useRef()
 
   function stringToColor(string) {
     let hash = 0;
@@ -48,11 +47,10 @@ export default function Topbar({ ColorModeContext }) {
       children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
     };
   }
-  const clickHandeler = () => {
-    console.log(theme)
-  }
+
   return (
     <div className="FeedHeader">
+
       < div className="left-side">
         <div className="Logo">
           <Link to="/home" >
@@ -76,28 +74,23 @@ export default function Topbar({ ColorModeContext }) {
           </IconButton>
         </Box>
       </div>
-      <div className="searchBar">
-        <TextField
-          id="standard-search"
-          placeholder="search"
-          type="search"
-          variant="standard"
-          InputProps={{
-            endAdornment: (
-              <Button onClick={clickHandeler}>
-                <SearchIcon />
-              </Button>)
-          }}
-        />
+
+      <div className="center">
+        <div className="searchBar">
+          <SearchUser />
+        </div>
       </div>
-      <div className="user-interface">
-        <UploadPost />
-        <Button>
-          <Link to={`/profile/${user.firstName}`} style={{ textDecoration: 'none', color: 'inherit' }} >
-            <Avatar src={user.profilePicture} {...stringAvatar(user.firstName + ' ' + user.lastName)} />
-          </Link>
-        </Button>
-        <Link to="/login" style={{ textDecoration: 'none', color: 'inherit' }}>Log out</Link>
+
+      <div className="left-side">
+        <div className="user-interface">
+          <UploadPost />
+          <Button>
+            <Link to={`/profile/${user.firstName}`} style={{ textDecoration: 'none', color: 'inherit' }} >
+              <Avatar src={user.profilePicture} {...stringAvatar(user.firstName + ' ' + user.lastName)} />
+            </Link>
+          </Button>
+          <Link to="/login" style={{ textDecoration: 'none', color: 'inherit' }}>Log out</Link>
+        </div>
       </div>
     </div>
   )
