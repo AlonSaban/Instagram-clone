@@ -54,7 +54,7 @@ export default function Register() {
       lastName: lastName.current.value,
       email: email.current.value,
       password: password.current.value,
-      description: description.current.value
+      desc: description.current.value
     }
     if (file) {
       console.log(file);
@@ -63,8 +63,6 @@ export default function Register() {
       data.append("name", fileName)
       data.append("image", file);
       newUser.profilePicture = fileName
-      console.log(fileName);
-      console.log(Array.from(data));
       try {
         await axios.post(`http://localhost:4000/api/upload`, data);
       } catch (err) {

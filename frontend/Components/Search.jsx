@@ -1,40 +1,30 @@
 import { useRef, useContext, useState } from 'react'
 import { Button, TextField, Dialog, InputLabel, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { UserContext } from '../../backend/context/UserContext'
-import CameraAltIcon from '@mui/icons-material/CameraAlt';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import SearchIcon from '@mui/icons-material/Search';
-
+import SearchResults from './SearchResults'
 import axios from 'axios';
-import '../dist/UploadPost.css'
+import '../dist/Search.css'
 
 
 function SearchUser() {
   const { user } = useContext(UserContext);
-  const [file, setFile] = useState("");
   const [open, setOpen] = useState(false);
-  let [searchResults, setSearchResults] = useState([]);
+  let [searchResultsList, setSearchResultsList] = useState([]);
   const search = useRef()
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
   const handleClose = () => {
     setOpen(false);
   }
-
   const clickHandeler = (e) => {
     e.preventDefault();
-
     getUser(search.current.value)
   }
 
   const getUser = async (user) => {
     try {
       const res = await axios.get(`http://localhost:4000/api/search/${user}`)
-      setSearchResults(res.data);
-      // users.map((user) => searchResults.push(user))
+      setSearchResultsList(res.data);
       setOpen(true)
     } catch (err) {
       console.log(err)
@@ -44,30 +34,31 @@ function SearchUser() {
   return (
     <div>
       <div>
-        <TextField
-          id="standard-search"
-          placeholder="search"
-          type="search"
-          variant="standard"
-          inputRef={search}
-          InputProps={{
-            endAdornment: (
-              <Button onClick={clickHandeler}>
-                <SearchIcon />
-              </Button>)
-          }}
-        />
+        <form onSubmit={clickHandeler}>
+          <TextField
+            id="standard-search"
+            placeholder="search"
+            type="search"
+            variant="standard"
+            inputRef={search}
+            InputProps={{
+              endAdornment: (
+                <Button onClick={clickHandeler}>
+                  <SearchIcon />
+                </Button>)
+            }}
+          />
+        </form>
         <Dialog open={open} onClose={handleClose}>
           <DialogContent>
-            <label >
-              {/* maybe search suggestions */}
-              <h1>Users Found: {searchResults.map((u) =>
-                (`${u.firstName} ${u.lastName} `))}
-              </h1>
+            <label className="users">
+              {searchResultsList.map((r) => (
+                <SearchResults key={r._id} result={r} />
+              ))}
             </label>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleClose}>Close</Button>
           </DialogActions>
         </Dialog>
       </div>

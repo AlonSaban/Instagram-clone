@@ -63,6 +63,8 @@ async function getUser(req, res) {
 }
 
 async function setfollowUser(req, res) {
+  console.log(req.body.id)
+  console.log(req.params.id)
   if (req.body.id !== req.params.id) {
     try {
       const user = await UserSchema.findById(req.params.id).lean()
@@ -109,7 +111,10 @@ async function getUsers(req, res) {
   try {
     const users = await UserSchema.find({ firstName: username })
     let usersList = [];
-    users.map((user) => usersList.push(user))
+    users.map((user) => {
+      const { _id, firstName, lastName, profilePicture, ...allTheRest } = user;
+      usersList.push({ _id, firstName, lastName, profilePicture })
+    })
 
     res.status(200).json(usersList)
   } catch (err) {

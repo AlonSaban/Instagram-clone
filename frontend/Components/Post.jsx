@@ -20,12 +20,12 @@ function Post({ post }) {
     userFirstName: "",
     userLastName: "",
     userId: "",
+    userProfilePicture: "",
   })
   const [likeDetail, setLikeDetail] = useState({
     likeSize: 40,
     likeColor: grey,
   })
-
   useEffect(() => {
     setIsLiked(post.likes.includes(currentUser._id))
   }, [currentUser._id, post.likes])
@@ -37,6 +37,7 @@ function Post({ post }) {
         userFirstName: res.data.firstName.toString(),
         userLastName: res.data.lastName.toString(),
         userId: res.data._id,
+        userProfilePicture: res.data.profilePicture
       })
     }, [post.userId])
 
@@ -94,7 +95,7 @@ function Post({ post }) {
         </div>
         <div className="UserInfo">
           <Link to={`/profile/${user.userFirstName}`} style={{ textDecoration: 'none' }}>
-            <Avatar className="Avatar" {...stringAvatar(user.userFirstName + ' ' + user.userLastName)} />
+            <Avatar className="Avatar" src={`/backend/uploads/${user.userProfilePicture}`} {...stringAvatar(user.userFirstName + ' ' + user.userLastName)} />
           </Link>
           <h3>{user.userFirstName}</h3>
         </div>

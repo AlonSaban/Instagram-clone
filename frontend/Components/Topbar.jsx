@@ -86,7 +86,7 @@ export default function Topbar({ ColorModeContext }) {
           <UploadPost />
           <Button>
             <Link to={`/profile/${user.firstName}`} style={{ textDecoration: 'none', color: 'inherit' }} >
-              <Avatar src={user.profilePicture} {...stringAvatar(user.firstName + ' ' + user.lastName)} />
+              <Avatar src={`/backend/uploads/${user.profilePicture}`} {...stringAvatar(user.firstName + ' ' + user.lastName)} />
             </Link>
           </Button>
           <Link to="/login" style={{ textDecoration: 'none', color: 'inherit' }}>Log out</Link>

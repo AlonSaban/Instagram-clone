@@ -40,7 +40,7 @@ function UploadPost() {
       console.log(Array.from(data));
       try {
         await axios.post(`http://localhost:4000/api/upload`, data);
-        window.location.reload();
+        // window.location.reload();
       } catch (err) {
         console.log(err)
       }

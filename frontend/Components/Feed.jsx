@@ -11,7 +11,7 @@ import { UserContext } from '../../backend/context/UserContext';
 import '../dist/Feed.css'
 
 
-export default function Feed({ username, theme }) {
+export default function Feed({ username }) {
   const [posts, setPosts] = useState([])
   const [data, setData] = useState({})
   const [text, setText] = useState("")
