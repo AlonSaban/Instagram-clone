@@ -8,8 +8,7 @@ async function checkUser(req, res, next) {
             try {
                 const salt = await bcrypt.genSalt(10);
                 req.body.password = await bcrypt.hash(req.body.password, salt);
-            }
-            catch (err) {
+            } catch (err) {
                 return res.status(500).json(err)
             }
         }
@@ -40,17 +39,14 @@ async function authenticateUser(req, res, next) {
 async function validateUser(req, res) {
     try {
         const user = await UserSchema.findOne({ email: req.body.email })
-        // console.log(user);
-        !user && res.status(404).json("user not found");
-        const validPassword = await bcrypt.compare(req.body.password, user.password)
+            // console.log(user);
+            !user && res.status(404).json("user not found");
+        const validPassword = await bcrypt.compare(req.body.password, user.password);
         !validPassword && res.status(400).json("wrong password")
-
         res.status(200).json(user)
-    }
-    catch (err) {
+    } catch (err) {
         console.log(err)
-        res
-            .status(500)
+        res.status(500).json(err)
     }
 
 }
