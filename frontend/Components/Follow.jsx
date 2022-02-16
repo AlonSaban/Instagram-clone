@@ -1,15 +1,16 @@
 import { useState, useContext } from 'react';
 import { UserContext } from '../../backend/context/UserContext'
+import { Avatar, AvatarGroup, Switch, Grid, Typography, Button, Paper } from "@mui/material"
 import axios from 'axios';
-import { Button } from '@mui/material'
 
-function Follow(currentUser) {
-  const { user } = useContext(UserContext);
-  console.log(currentUser)
+function Follow({ user }) {
+  const { user: currentUser } = useContext(UserContext);
+  const [followed, setFollowed] = useState();
+  const [friends, setFriends] = useState();
+
   const followUser = async () => {
     try {
-      const res = axios.put(`http://localhost:4000/api/${user._id}/follow`, currentUser._id)
-      console.log(res)
+      await axios.put(`http://localhost:4000/api/${user._id}/follow`, user._id)
     } catch (err) {
       console.log(err);
     }
@@ -18,7 +19,8 @@ function Follow(currentUser) {
   return (
     <div>
       <Button onClick={followUser}>
-        Follow
+        {currentUser.following.includes(user._id)
+          ? "Unfollow" : "Follow"}
       </Button>
     </div>
   )

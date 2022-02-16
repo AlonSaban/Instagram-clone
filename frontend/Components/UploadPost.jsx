@@ -36,8 +36,6 @@ function UploadPost() {
       data.append("name", fileName)
       data.append("image", file);
       newPost.img = fileName
-      console.log(Array.from(data)[1][1]);
-      console.log(Array.from(data));
       try {
         await axios.post(`http://localhost:4000/api/upload`, data);
         // window.location.reload();

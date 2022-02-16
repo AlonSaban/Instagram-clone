@@ -126,7 +126,18 @@ const setLike = async (req, res) => {
 
     }
 }
-
+async function createComment(req, res) {
+    const postId = req.params.postId
+    const comment = req.body.comment
+    console.log(postId)
+    console.log(comment)
+    try {
+        await PostSchema.findByIdAndUpdate(postId, { $push: { comments: comment } })
+        res.status(200).json("Comment has been Posted")
+    } catch (err) {
+        res.status(500).json(err)
+    }
+}
 module.exports = {
     create,
     updatePost,
@@ -136,5 +147,6 @@ module.exports = {
     getPosts,
     getOne,
     getUserPosts,
-    setLike
+    setLike,
+    createComment
 }

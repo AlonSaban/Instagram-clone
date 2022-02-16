@@ -1,4 +1,4 @@
-const { create, updatePost, setLike, deletePost, getUserPosts, getPostById, getPosts, getOne, uploadImages } = require('../controllers/posts')
+const { create, updatePost, setLike, createComment, deletePost, getUserPosts, getPostById, getPosts, getOne, uploadImages } = require('../controllers/posts')
 const { upload } = require("../middlewares/upload")
 
 module.exports = (router) => {
@@ -8,6 +8,7 @@ module.exports = (router) => {
     router.get('/api/profile/:username', getUserPosts)
     router.put('/api/posts/:id', updatePost)
     router.put('/api/posts/:id/like', setLike)
+    router.put('/api/posts/:postId/comment', createComment)
     router.delete('/api/posts/:id', deletePost)
     router.get('/api/:id', getOne)
     // router.get('/api/profile/:id', getOne)

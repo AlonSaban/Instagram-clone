@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useRef, useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { Card, Button, TextField } from '@mui/material'
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -8,12 +8,13 @@ import { UserContext } from '../../backend/context/UserContext'
 import axios from "axios"
 import { format } from 'timeago.js';
 import DeletePost from './DeletePost'
+import Comments from './Commenst';
 import '../dist/Post.css'
 
 
 function Post({ post }) {
   const { user: currentUser } = useContext(UserContext)
-  const [comment, setComment] = useState("")
+  const comment = useRef("")
   const [isLiked, setIsLiked] = useState(false)
   const [like, setLike] = useState(post.likes.length);
   const [user, setUser] = useState({
@@ -58,6 +59,7 @@ function Post({ post }) {
       console.log(err)
     }
   }
+
 
   function stringToColor(string) {
     let hash = 0;
@@ -117,18 +119,10 @@ function Post({ post }) {
           <h4> {like} Likes</h4>
         </div>
         <div className="text">
-          <h4>{post.caption}</h4>
-          <h3>{comment}</h3>
+          {post.caption}
         </div>
         <div className="BottomPost">
-          <TextField
-            className="comment"
-            placeholder="Add a comment"
-            variant="standard"
-            type="text"
-            value={comment}
-            onChange={e => setComment(e.target.value)}
-          />
+          <Comments post={post} />
         </div >
       </div >
     </div>
