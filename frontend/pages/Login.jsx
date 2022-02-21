@@ -1,4 +1,4 @@
-import React, { useRef, useContext } from 'react'
+import React, { useRef, useContext, useEffect } from 'react'
 import { Card, CardHeader, CardContent, CardActions, TextField, Button, CircularProgress, } from '@mui/material'
 import { UserContext } from '../../backend/context/UserContext'
 import { Link, useNavigate } from 'react-router-dom'
@@ -30,14 +30,25 @@ const LoginActions = styled(CardActions)`
 `;
 
 export default function Login() {
+  const { user: currentUser } = useContext(UserContext)
   const email = useRef();
   const password = useRef();
   const { user, isFetching, error, dispatch } = useContext(UserContext);
   const navigate = useNavigate()
+  console.log(user);
+  console.log(currentUser);
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate('/home', { replace: true })
+    }
+  }, [])
 
   const loginUser = e => {
     e.preventDefault();
-    loginCall({ email: email.current.value, password: password.current.value }, dispatch);
+    if (!currentUser) {
+      loginCall({ email: email.current.value, password: password.current.value }, dispatch);
+    }
   }
 
   const loginCall = async (user, dispatch) => {

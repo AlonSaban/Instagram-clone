@@ -1,14 +1,13 @@
-import React, { useState, useContext, useRef } from 'react'
-import { Link } from 'react-router-dom';
-import { TextField, Button, Avatar } from '@mui/material'
-import SearchIcon from '@mui/icons-material/Search';
+import React, { useContext } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
+import { Button, Avatar } from '@mui/material'
 import { useTheme } from '@mui/material/styles';
-import { UserContext } from '../../backend/context/UserContext'
 import IconButton from '@mui/material/IconButton';
 import Box from '@mui/material/Box';
+import axios from 'axios';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
-import axios from 'axios'
+import { UserContext } from '../../backend/context/UserContext'
 import UploadPost from '../Components/UploadPost'
 import logo from '../img/Logo.png'
 import SearchUser from "./Search"
@@ -17,10 +16,10 @@ import '../dist/Topbar.css'
 
 
 export default function Topbar({ ColorModeContext }) {
-  const user = useContext(UserContext).user
+  const { user, dispatch } = useContext(UserContext)
   const theme = useTheme();
+  const navigate = useNavigate()
   const colorMode = useContext(ColorModeContext);
-  const search = useRef()
 
   function stringToColor(string) {
     let hash = 0;
@@ -47,7 +46,11 @@ export default function Topbar({ ColorModeContext }) {
       children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
     };
   }
+  const disconnect = () => {
+    dispatch({ type: "DISCONNECTED_START" })
+    navigate('/login', { replace: true })
 
+  }
   return (
     <div className="FeedHeader">
 
@@ -89,7 +92,9 @@ export default function Topbar({ ColorModeContext }) {
               <Avatar src={`/backend/uploads/${user.profilePicture}`} {...stringAvatar(user.firstName + ' ' + user.lastName)} />
             </Link>
           </Button>
-          <Link to="/login" style={{ textDecoration: 'none', color: 'inherit' }}>Log out</Link>
+          <Button onClick={disconnect}>
+            Log out
+          </Button>
         </div>
       </div>
     </div>

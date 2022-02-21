@@ -1,11 +1,9 @@
-import { useContext, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams } from 'react-router'
-import { UserContext } from '../../backend/context/UserContext'
-import { AvatarGroup, Switch, Grid, Typography, Button, Paper } from "@mui/material"
+import { Paper } from "@mui/material"
 import Box from '@mui/material/Box';
 import Topbar from '../Components/Topbar'
 import Feed from '../Components/Feed'
-import Avatar from '@mui/material/Avatar'
 import axios from 'axios'
 import ColorModeContext from '../../backend/context/ThemeContext'
 import SideBar from '../Components/SideBar'
@@ -14,7 +12,7 @@ import './../dist/Profile.css'
 export default function Profile() {
   const [user, setUser] = useState({})
   const username = useParams().username
-  const [data,setData] = useState(false)
+  const [data, setData] = useState(false)
   useEffect(async () => {
     try {
       const response = await axios.get(`http://localhost:4000/api/users?username=${username}`)
@@ -41,13 +39,13 @@ export default function Profile() {
       <div className="profile">
         <div className="side-bar">
           <Box>
-            {data === true &&(
-              <SideBar user={user}/>
-              )}
+            {data === true && (
+              <SideBar user={user} />
+            )}
           </Box>
         </div>
         <div className="Feed">
-          <Feed  />
+          <Feed username={username} />
         </div>
       </div>
     </Paper >

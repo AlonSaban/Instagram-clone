@@ -14,7 +14,7 @@ import '../dist/Post.css'
 
 function Post({ post }) {
   const { user: currentUser } = useContext(UserContext)
-  const comment = useRef("")
+  const comments = []
   const [isLiked, setIsLiked] = useState(false)
   const [like, setLike] = useState(post.likes.length);
   const [user, setUser] = useState({
@@ -59,8 +59,7 @@ function Post({ post }) {
       console.log(err)
     }
   }
-
-
+  comments.push(post.comments)
   function stringToColor(string) {
     let hash = 0;
     let i;
@@ -93,7 +92,9 @@ function Post({ post }) {
     <div className="post">
       <div className="PostMold">
         <div className="close-post">
-          <DeletePost post={post} userId={user.userId} />
+          {currentUser._id === post.userId && (
+            <DeletePost post={post} />
+          )}
         </div>
         <div className="UserInfo">
           <Link to={`/profile/${user.userFirstName}`} style={{ textDecoration: 'none' }}>
@@ -122,6 +123,7 @@ function Post({ post }) {
           {post.caption}
         </div>
         <div className="BottomPost">
+          {post.comments.join(', ')}
           <Comments post={post} />
         </div >
       </div >

@@ -91,14 +91,8 @@ async function getPostById(req, res, next) {
 
 async function deletePost(req, res) {
     try {
-        const post = await PostSchema.findById(req.params.id).lean()
-        if (post.userId === req.body.userId) {
-            await post.deleteOne()
-            res.status(200).json("Post has been delete")
-        }
-        else {
-            res.status(403).json("you have no permission for that")
-        }
+        await PostSchema.findByIdAndDelete(req.params.id)
+        res.status(200).json("Post has been delete")
     }
     catch (err) {
         res.status(500).json(err)

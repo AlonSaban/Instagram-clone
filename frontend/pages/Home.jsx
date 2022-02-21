@@ -2,7 +2,7 @@ import { useContext, createContext, useMemo, useState } from "react"
 import Feed from '../Components/Feed'
 import Topbar from '../Components/Topbar'
 import Box from '@mui/material/Box';
-import { Switch, Grid, Typography, Button, Paper } from "@mui/material"
+import { Paper } from "@mui/material"
 import ColorModeContext from '../../backend/context/ThemeContext'
 import '../dist/Home.css'
 

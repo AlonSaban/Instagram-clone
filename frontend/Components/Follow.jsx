@@ -9,6 +9,7 @@ function Follow({ user }) {
   const [friends, setFriends] = useState();
 
   const followUser = async () => {
+    setFollowed(currentUser.followinging.includes(user?.id))
     try {
       await axios.put(`http://localhost:4000/api/${user._id}/follow`, user._id)
     } catch (err) {

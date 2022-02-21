@@ -11,18 +11,17 @@ import './App.css'
 
 function App() {
   const { user } = useContext(UserContext)
+
   return (
     <div className="App">
-      <UserContextProvider >
-        <Routes>
-          <Route exact path="/" element={user ? (<Navigate path="/" to="/home" />) : (<Navigate path="/" to="login" />)} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route exact path="/feed" element={<Feed />} />
-          <Route exact path="/home" element={<PageWrapper />} />
-          <Route path="/profile/:username" element={<Profile />} />
-        </Routes>
-      </UserContextProvider>
+      <Routes>
+        <Route exact path="/" to="login" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route exact path="/feed" element={user ? <Feed /> : <Login />} />
+        <Route exact path="/home" element={user ? <PageWrapper /> : <Login />} />
+        <Route path="/profile/:username" element={user ? <Profile /> : <Login />} />
+      </Routes>
     </div >
   )
 }
