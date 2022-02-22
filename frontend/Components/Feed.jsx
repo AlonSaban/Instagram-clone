@@ -1,13 +1,7 @@
 import { useState, useEffect, useContext } from 'react'
-import styled from 'styled-components'
-import { Link } from 'react-router-dom';
-import { Switch, Grid, Typography, Paper } from "@material-ui/core"
-import { Card, CardHeader, CardContent, CardActions, TextField, Button, Avatar } from '@mui/material'
-import Box from '@mui/material/Box';
 import Post from './Post'
 import axios from "axios"
 import { UserContext } from '../../backend/context/UserContext';
-
 import '../dist/Feed.css'
 
 

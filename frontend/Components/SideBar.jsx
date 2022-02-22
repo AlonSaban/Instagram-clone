@@ -1,8 +1,7 @@
 import { useContext, useState, useEffect } from 'react'
-import { Avatar, AvatarGroup, Switch, Grid, Typography, Button, Paper } from "@mui/material"
+import { Avatar, AvatarGroup } from "@mui/material"
 import { useParams } from 'react-router'
 import { UserContext } from '../../backend/context/UserContext'
-// import { Add } from '@material-ui/icons'
 import axios from 'axios';
 import Follow from '../Components/Follow'
 import '../dist/SideBar.css'

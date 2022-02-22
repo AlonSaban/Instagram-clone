@@ -1,5 +1,5 @@
 import { useRef, useContext, useState } from 'react'
-import { Button, TextField, Dialog, InputLabel, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Button, TextField, Dialog, DialogActions, DialogContent } from '@mui/material';
 import { UserContext } from '../../backend/context/UserContext'
 import SearchIcon from '@mui/icons-material/Search';
 import SearchResults from './SearchResults'

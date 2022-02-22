@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom'
 import Avatar from '@mui/material/Avatar'
 import '../dist/SearchResults.css'

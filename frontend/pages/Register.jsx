@@ -1,18 +1,13 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { UserContext } from '../../backend/context/UserContext'
 import styled from 'styled-components';
-import { Card, CardHeader, CardContent, CircularProgress, InputLabel, CardActions, TextField, Button } from '@mui/material'
+import { Card, CardHeader, CardContent, InputLabel, CardActions, TextField, Button } from '@mui/material'
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import axios from 'axios'
 import '../dist/Register.css'
 
-const Flex = styled.div`
-  flex:1;
-  display:flex;
-  height: 100%;
-  justify-content:center;
-  align-items:center;
-`;
+
 const RegisterCard = styled(Card)`
   padding:20px 30px 23px 33px;
   width: 600px;
@@ -34,7 +29,9 @@ const RegisterActions = styled(CardActions)`
   display: flex;
   justify-content: flex-end;
 `;
+
 export default function Register() {
+  const { user, isFetching } = useContext(UserContext);
   const [file, setFile] = useState("");
   const firstName = useRef()
   const lastName = useRef()
@@ -78,9 +75,8 @@ export default function Register() {
     }
   }
 
-
   return (
-    <Flex>
+    <div className="Flex">
       <form className="form">
         <RegisterCard>
           <CardHeader title="Register" />
@@ -146,8 +142,7 @@ export default function Register() {
             </div>
             <RegisterActions className="button">
               <Button type="submit" value="Register" style={{ padding: '10px' }} variant="contained" onClick={registerUser}>
-                {/* {isFetching ? <CircularProgress color="inherit" size="10px" /> : "register"} */}
-                Register
+                {isFetching ? <CircularProgress color="inherit" size="10px" /> : "register"}
               </Button>
             </RegisterActions>
           </RegisterContent>
@@ -156,6 +151,6 @@ export default function Register() {
           <Link to="/login" style={{ textDecoration: 'none', color: 'inherit' }}>  <Button>Log in</Button></Link>
         </RedirectCard>
       </form>
-    </Flex>
+    </div>
   )
 }
