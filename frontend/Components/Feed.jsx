@@ -19,6 +19,7 @@ export default function Feed({ username }) {
     }
     , [username, user._id])
 
+
   return (
     <div className="PostStyle">
       <div className="FeedBody" >

@@ -5,7 +5,8 @@ import Avatar from '@mui/material/Avatar'
 import axios from 'axios'
 import '../dist/CommentInput.css'
 
-function Comments({ post, comments, commenterImg }) {
+function Comments({ post }) {
+
   const { user: currentUser } = useContext(UserContext)
   const comment = useRef("")
 
@@ -20,13 +21,11 @@ function Comments({ post, comments, commenterImg }) {
     }
   }
 
+  // <Avatar className="Avatar" src={`/backend/uploads/${commenterImg}`} />
+  // <h4>{comments}</h4>
 
   return (
     <div>
-      <div className="the-comments">
-        <Avatar className="Avatar" src={`/backend/uploads/${commenterImg}`} />
-        <h4>{comments}</h4>
-      </div>
       <form onSubmit={commentHandeler}>
         <TextField
           className="comment"

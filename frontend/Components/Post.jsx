@@ -128,6 +128,7 @@ function Post({ post }) {
         </div>
         <div className="BottomPost">
           <div className="commetns">
+            <Comment post={post} />
           </div>
           <CommentInput post={post} comments={comment} commenterImg={commenterImg} />
         </div >
