@@ -2,31 +2,30 @@ import Avatar from '@mui/material/Avatar'
 import '../dist/comments.css'
 
 function Comment({ post }) {
-  // console.count(post)
-  const comments = [];
-  const profilePic = [];
+  const data = [];
+
+  const getRandomInt = (max) => {
+    return Math.floor(Math.random() * max);
+  }
+  // console.count("count")
 
   for (const element of post.comments) {
-    comments.push(element[1])
-    profilePic.push(element[0])
+    data.push(element)
   }
-  const listItems = comments.map((comment) =>
-    <li key={comment.toString()}>
-      {comment}
-    </li>
-  );
 
-  // console.log(comments);
+  const commentList = data.map((c) => (
+    <li key={c.toString()}>
+      {
+        <Avatar className="Avatar" key={getRandomInt(80)} src={`/backend/uploads/${c[0]}`} />
+      }
+      {c[1]}
+    </li>
+  ))
 
   return (
     <div className="content">
       <div className="comments">
-        {listItems}
-      </div>
-      <div className="profile-pic">
-        {profilePic.map((p) => (
-          <Avatar className="Avatar" src={`/backend/uploads/${p}`} />
-        ))}
+        {commentList}
       </div>
     </div>
   )
