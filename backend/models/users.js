@@ -12,6 +12,7 @@ const UserSchema = new mongoose.Schema({
     posts: { type: Array, default: [], required: false },
     desc: { type: String, max: 20 },
     isAdmin: { type: Boolean, default: false, required: false },
+    tokens: { created: String, identifier: String },
     created: { type: Date, default: Date.now }
 }, { collection: 'users' });
 

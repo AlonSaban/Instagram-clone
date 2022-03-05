@@ -8,13 +8,15 @@ import { UserContext } from '../../backend/context/UserContext'
 import axios from "axios"
 import { format } from 'timeago.js';
 import DeletePost from './DeletePost'
-import Comments from './Commenst';
+import CommentInput from './CommentInput';
+import Comment from './Comment';
 import '../dist/Post.css'
 
 
 function Post({ post }) {
   const { user: currentUser } = useContext(UserContext)
-  const comments = []
+  const [comment, setComment] = useState()
+  const [commenterImg, setCommenterImg] = useState()
   const [isLiked, setIsLiked] = useState(false)
   const [like, setLike] = useState(post.likes.length);
   const [user, setUser] = useState({
@@ -59,26 +61,28 @@ function Post({ post }) {
       console.log(err)
     }
   }
-  comments.push(post.comments)
+  useEffect(
+    async function getComments() {
+      await post.comments.forEach((comment) => {
+        setCommenterImg(comment[0])
+        setComment(comment[1])
+      })
+    }, [post])
+
+
   function stringToColor(string) {
     let hash = 0;
     let i;
-
+    let color = '#';
     for (i = 0; i < string.length; i += 1) {
       hash = string.charCodeAt(i) + ((hash << 5) - hash);
     }
-
-    let color = '#';
-
     for (i = 0; i < 3; i += 1) {
       const value = (hash >> (i * 8)) & 0xff;
       color += `00${value.toString(16)}`.substr(-2);
     }
-    /* eslint-enable no-bitwise */
-
     return color;
   }
-
   function stringAvatar(name) {
     return {
       sx: {
@@ -87,6 +91,7 @@ function Post({ post }) {
       children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
     };
   }
+
 
   return (
     <div className="post">
@@ -106,7 +111,6 @@ function Post({ post }) {
           <img src={`/backend/uploads/${post.img}`} alt="post-img" className="post_img" style={{ width: "100%", height: "100%" }} />
         </div>
         {format(post.created)}
-        <h6 className="date"></h6>
         <div className="LikeComponent">
           <div sx={{
             '& > :not(style)': {
@@ -123,8 +127,9 @@ function Post({ post }) {
           {post.caption}
         </div>
         <div className="BottomPost">
-          {post.comments.join(', ')}
-          <Comments post={post} />
+          <div className="commetns">
+          </div>
+          <CommentInput post={post} comments={comment} commenterImg={commenterImg} />
         </div >
       </div >
     </div>

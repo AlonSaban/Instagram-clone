@@ -35,8 +35,6 @@ export default function Login() {
   const password = useRef();
   const { user, isFetching, error, dispatch } = useContext(UserContext);
   const navigate = useNavigate()
-  console.log(user);
-  console.log(currentUser);
 
   useEffect(() => {
     if (currentUser) {

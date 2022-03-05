@@ -121,16 +121,25 @@ const setLike = async (req, res) => {
     }
 }
 async function createComment(req, res) {
+    const authorInfo = req.body.authorInfo
     const postId = req.params.postId
-    const comment = req.body.comment
-    console.log(postId)
-    console.log(comment)
+    const comment = req.body.commentInfo
+    // const update = { comments: { commentAuthorId: commentAuthorId, commentInfo: comment } };
+    console.log('commentImg: ' + authorInfo)
+    console.log('postId: ' + postId)
+    console.log('comment: ' + comment)
+
     try {
-        await PostSchema.findByIdAndUpdate(postId, { $push: { comments: comment } })
-        res.status(200).json("Comment has been Posted")
+        await PostSchema.findByIdAndUpdate({ _id: postId }, {
+            $push:
+                { comments: [[authorInfo, comment]] }
+        })
+        res.status(200).json('comment send')
+
     } catch (err) {
         res.status(500).json(err)
     }
+
 }
 module.exports = {
     create,

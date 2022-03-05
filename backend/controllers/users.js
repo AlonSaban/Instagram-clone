@@ -27,8 +27,9 @@ async function createUser(req, res) {
 }
 
 async function updateUser(req, res) {
+    console.log(req.body);
     try {
-        await UserSchema.findByIdAndUpdate(req.params.id, { $set: req.body, })
+        await UserSchema.findByIdAndUpdate(req.body.id, { $set: req.body })
         res.status(200).json("Account has been updated")
     } catch (err) {
         return res.status(500).json(err)
