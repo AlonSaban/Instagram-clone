@@ -19,7 +19,7 @@ export default function Feed({ username }) {
     }
     , [username, user._id])
 
-  const postList = useMemo(() => posts.map((p) => (<Post key={p._id} post={p} />)))
+  const postList = useMemo(() => posts.map((p) => (<Post key={p._id} post={p} />)), [posts])
 
   return (
     <div className="PostStyle">

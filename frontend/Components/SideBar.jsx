@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react'
+import { useMemo, useState, useContext, useEffect } from 'react'
 import { Avatar, AvatarGroup } from "@mui/material"
 import { useParams } from 'react-router'
 import { UserContext } from '../../backend/context/UserContext'
@@ -26,6 +26,16 @@ function SideBar({ user }) {
     }
   }, [user])
 
+  const followingList = useMemo(() => friends.map((friend) => (
+    <li key={friend.firstName}>
+      <AvatarGroup max={4}>
+        <Avatar src={`/backend/uploads/${friend.profilePicture}`} />
+      </AvatarGroup>
+      {friend.firstName}
+    </li>
+  )), [friends])
+
+
   return (
     <div className="side-bar">
       <h2>Profile of: {username}</h2>
@@ -35,11 +45,11 @@ function SideBar({ user }) {
       )}
 
       {/* <h2>{user.desc}</h2> */}
-      <h3>Following: {friends.map(friend => friend.firstName).join(', ')}</h3>
-      <AvatarGroup total={followingPic.length}>
-        <Avatar src={`/backend/uploads/${followingPic[0]}`} />
-        <Avatar src={`/backend/uploads/${followingPic[1]}`} />
-      </AvatarGroup>
+
+      <h3>Following:</h3>
+
+      {followingList}
+
       <h3>Followers:</h3>
     </div>
   )

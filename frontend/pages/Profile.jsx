@@ -40,13 +40,11 @@ export default function Profile() {
       </Box>
 
       <div className="profile">
-        <div className="side-bar">
-          <Box>
-            {data === true && (
-              <SideBar user={user} />
-            )}
-          </Box>
-        </div>
+        <Box>
+          {data === true && (
+            <SideBar user={user} />
+          )}
+        </Box>
         <div className="Feed">
           <Feed username={username} />
         </div>

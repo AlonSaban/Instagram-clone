@@ -21,9 +21,6 @@ function Comments({ post }) {
     }
   }
 
-  // <Avatar className="Avatar" src={`/backend/uploads/${commenterImg}`} />
-  // <h4>{comments}</h4>
-
   return (
     <div>
       <form onSubmit={commentHandeler}>

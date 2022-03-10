@@ -18,7 +18,7 @@ function Comment({ post }) {
       }
       {c[1]}
     </li>
-  )))
+  )), [data])
 
   return (
     <div className="content">
