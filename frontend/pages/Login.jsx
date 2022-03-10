@@ -80,7 +80,7 @@ export default function Login() {
                 style={{ width: "240px", margin: "10px" }}
                 className="Field"
                 label="Password"
-                minLength="5"
+                minLength="8"
                 inputRef={password}
                 // type="password"
                 required

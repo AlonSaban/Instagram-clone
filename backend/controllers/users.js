@@ -3,12 +3,12 @@ const UserSchema = require('../models/users')
 const bcrypt = require('bcrypt')
 const User = require('../models/users')
 
-
-async function createUser(req, res) {
+async function createUser(req, res, next) {
     try {
         // const token = jwt.sign({}, process.env.JWT_TOKEN)
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(req.body.password, salt)
+
         const user = await UserSchema.create({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
@@ -17,19 +17,32 @@ async function createUser(req, res) {
             profilePicture: req.body.profilePicture,
         })
         await user.save()
-        res
-            .status(200).send(user)
+        next(user);
     } catch (err) {
-        res
-            .status(500)
-            .json(err)
+        res.status(500).json(err)
     }
 }
-
-async function updateUser(req, res) {
-    console.log(req.body);
+async function addToken(user) {
+    console.log('user: ' + user);
+    const payload = {
+        user: { id: user._id },
+        created: (new Date()).toJSON(),
+        identifier: Math.random().toString()
+    }
+    const token = jwt.sign(payload, process.env.JWT_TOKEN)
     try {
-        await UserSchema.findByIdAndUpdate(req.body.id, { $set: req.body })
+        const addedToken = await UserSchema.findByIdAndUpdate(user._id, { $set: { tokens: { token: token } } })
+        console.log('addToken: ' + addedToken)
+        res.status(200).send(addedToken)
+    } catch (err) {
+        return res.status(500).json(err)
+    }
+}
+async function updateUser(req, res) {
+    console.log(`req.body: ${req.body}`);
+    const data = req.body.tokens
+    try {
+        await UserSchema.findByIdAndUpdate(req.body._id, { $set: data })
         res.status(200).json("Account has been updated")
     } catch (err) {
         return res.status(500).json(err)
@@ -47,7 +60,6 @@ async function deleteUser(req, res) {
 
 async function getUser(req, res) {
     const userId = req.query.userId;
-    // const username = req.params.userName;
     const username = req.query.username;
 
     try {
@@ -128,5 +140,6 @@ module.exports = {
     getUser,
     setfollowUser,
     getFriends,
-    getUsers
+    getUsers,
+    addToken
 }

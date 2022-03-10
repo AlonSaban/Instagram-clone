@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useMemo, useEffect, useContext } from 'react'
 import Post from './Post'
 import axios from "axios"
 import { UserContext } from '../../backend/context/UserContext';
@@ -19,13 +19,12 @@ export default function Feed({ username }) {
     }
     , [username, user._id])
 
+  const postList = useMemo(() => posts.map((p) => (<Post key={p._id} post={p} />)))
 
   return (
     <div className="PostStyle">
       <div className="FeedBody" >
-        {posts.map((p) => (
-          <Post key={p._id} post={p} />
-        ))}
+        {postList}
       </div>
     </div >
   )

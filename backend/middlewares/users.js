@@ -1,5 +1,5 @@
 const UserSchema = require('../models/users')
-const { getUser } = require('../controllers/users')
+const { setUserToken } = require('../controllers/tokens')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
@@ -26,7 +26,6 @@ async function validateUser(req, res, next) {
         !user && res.status(404).json("user not found");
         const validPassword = await bcrypt.compare(req.body.password, user.password);
         !validPassword && res.status(400).json("wrong password")
-        // const token = req.cookies['token'];
         res.status(200).json(user)
         // status: "success", token: jwt.sign({ user: user }, process.env.JWT_TOKEN) 
     } catch (err) {
@@ -37,7 +36,7 @@ async function validateUser(req, res, next) {
 }
 
 // authenticate user. checking if the user suppose to have permission
-async function setUserToken(req, res, next) {
+async function checkToken(req, res, next) {
     const token = req.cookies.token;
     const TEN_MINUTES = 1000 * 60 * 10;
     let payload
@@ -67,19 +66,22 @@ async function setUserToken(req, res, next) {
         req.user = payload.user;
         return next()
     }
-    const user = await getUser(payload.user.id)
+
+    const user = updateUser(payload.user.id)
+
     if (!(user &&
         user.tokens &&
         user.tokens.created === payload.created &&
         user.tokens.identifier === payload.identifier)) {
         return res.status(401)
     }
-
-    // const token = jwt.sign(newPayload, process.env.JWT_TOKEN);
+    const newUserToken = await setUserToken(user);
+    res.cookie('token', newUserToken)
+    next()
 }
 
 module.exports = {
     checkUser,
     validateUser,
-    setUserToken
+    checkToken
 };

@@ -54,7 +54,6 @@ export default function Register() {
       desc: description.current.value
     }
     if (file) {
-      console.log(file);
       const data = new FormData();
       const fileName = Date.now() + "-" + file.name;
       data.append("name", fileName)
@@ -67,7 +66,6 @@ export default function Register() {
       }
     }
     try {
-      console.log(newUser);
       await axios.post('http://localhost:4000/api/register', newUser)
       navigate("/login", { replace: true })
     } catch (err) {

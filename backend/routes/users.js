@@ -1,11 +1,9 @@
-const { checkUser, validateUser } = require('../middlewares/users')
-const { createUser, updateUser, deleteUser, getUser, setfollowUser, getFriends, getUsers } = require('../controllers/users')
-const { setUserToken } = require('../controllers/tokens')
+const { checkUser, validateUser, checkToken } = require('../middlewares/users')
+const { createUser, addToken, updateUser, deleteUser, getUser, setfollowUser, getFriends, getUsers } = require('../controllers/users')
 
 module.exports = router => {
-  router.post('/api/register', createUser)
+  router.post('/api/register', createUser, addToken)
   router.post('/api/login', validateUser)
-  router.post('/api/verify', setUserToken)
   router.put('/api/users/:userId', checkUser, updateUser)
   router.delete('/api/:id', checkUser, deleteUser)
   router.get('/api/users/', getUser)
