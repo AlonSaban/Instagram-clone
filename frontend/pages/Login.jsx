@@ -53,10 +53,11 @@ export default function Login() {
     dispatch({ type: "LOGIN_START" })
     try {
       const res = await axios.post("http://localhost:4000/api/login", user)
-      dispatch({ type: "LOGIN_SUCCESS", payload: res.data })
+      dispatch({ type: "LOGIN_SUCCESS", payload: res.data.user })
       navigate('/home', { replace: true })
+      console.log(res.data.acsessToken)
     } catch (err) {
-      console.log(err);
+      console.error(err);
       dispatch({ type: "LOGIN_FAILURE", payload: err })
     }
   }
