@@ -8,7 +8,7 @@ function Follow({ user }) {
 
   const followUser = async () => {
     try {
-      await axios.put(`http://localhost:4000/api/${user._id}/follow`, user._id)
+      await axios.put(`http://localhost:4000/api/${user._id}/follow`, { id: currentUser._id })
     } catch (err) {
       console.error(err);
     }

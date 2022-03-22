@@ -46,9 +46,14 @@ export default function Topbar({ ColorModeContext }) {
       children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
     };
   }
-  const disconnect = () => {
-    dispatch({ type: "DISCONNECTED_START" })
-    navigate('/login', { replace: true })
+  const disconnect = async () => {
+    try {
+      await axios.delete('http//:localhost:4000/api/logout')
+      dispatch({ type: "DISCONNECTED_START" })
+      navigate('/login', { replace: true })
+    } catch (err) {
+      console.error(err);
+    }
 
   }
   return (

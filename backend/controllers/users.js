@@ -75,19 +75,19 @@ async function getUser(req, res) {
 }
 
 async function setfollowUser(req, res) {
-    console.log(req.body._id)
-    console.log(req.params.id)
+    console.log(`user ._id: ${req.body.id}`)
+    console.log(`params.id: ${req.params.id}`)
     if (req.body.id !== req.params.id) {
         try {
             const user = await UserSchema.findById(req.params.id).lean()
-            const currentUser = await UserSchema.findById(req.body.userId).lean()
-            if (!user.followers.includes(req.body.userId)) {
-                await UserSchema.findByIdAndUpdate(req.params.id, { $push: { followers: req.body.userId } })
-                await UserSchema.findByIdAndUpdate(req.body.userId, { $push: { following: req.params.id } })
+            const currentUser = await UserSchema.findById(req.body.id).lean()
+            if (!user.followers.includes(req.body.id)) {
+                await UserSchema.findByIdAndUpdate(req.params.id, { $push: { followers: req.body.id } })
+                await UserSchema.findByIdAndUpdate(req.body.id, { $push: { following: req.params.id } })
                 res.status(200).json("user has been followed")
             } else {
-                await UserSchema.findByIdAndUpdate(req.params.id, { $pull: { followers: req.body.userId } })
-                await UserSchema.findByIdAndUpdate(req.body.userId, { $pull: { following: req.params.id } })
+                await UserSchema.findByIdAndUpdate(req.params.id, { $pull: { followers: req.body.id } })
+                await UserSchema.findByIdAndUpdate(req.body.id, { $pull: { following: req.params.id } })
                 res.status(200).json("user is no longer following this user")
             }
         } catch (err) {

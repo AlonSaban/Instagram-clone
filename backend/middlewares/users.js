@@ -19,21 +19,28 @@ async function checkUser(req, res, next) {
     }
 }
 
-// checking if such a user exists
+// checking if such a user exists and if so create him cookies
 async function validateUser(req, res, next) {
     try {
         const user = await UserSchema.findOne({ email: req.body.email })
         !user && res.status(404).json("user not found");
         const validPassword = await bcrypt.compare(req.body.password, user.password);
         !validPassword && res.status(400).json("wrong password")
-        const acsessToken = jwt.sign({ email: req.body.email }, process.env.JWT_TOKEN)
-        res.status(200).json({ user, acsessToken })
-        // status: "success", token: jwt.sign({ user: user }, process.env.JWT_TOKEN) 
+        const accessToken = jwt.sign({ email: req.body.email }, process.env.JWT_TOKEN)
+        const refreshToken = jwt.sign({ email: req.body.email }, process.env.JWT_TOKEN)
+
+        const { _id, firstName, lastName, profilePicture, followers, following, posts, ...allTheRest } = user;
+        const send = { _id, firstName, lastName, profilePicture, followers, following, posts }
+
+        res.cookie("accessToken", accessToken, { maxAge: 300000, httpOnly: true, })
+        res.cookie("refreshToken", refreshToken, { maxAge: 3.154e10, httpOnly: true, })
+
+        return res.status(200).json({ send, accessToken })
+
     } catch (err) {
         console.log(err)
         res.status(500).json(err)
     }
-    next()
 }
 
 // authenticate user. checking if the user suppose to have permission
@@ -92,9 +99,21 @@ async function checkToken(req, res, next) {
     // res.cookie('token', newUserToken)
     // next()
 }
+async function disconnect() {
+    const { user } = req;
+
+    // const session = 
+
+}
+
+async function getSassion() {
+
+}
 
 module.exports = {
     checkUser,
     validateUser,
-    checkToken
+    checkToken,
+    disconnect,
+    getSassion
 };
