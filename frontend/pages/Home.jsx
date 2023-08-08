@@ -10,8 +10,6 @@ import '../dist/Home.css'
 
 export default function Home() {
 
-
-
   return (
     <Paper>
       <Box

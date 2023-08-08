@@ -27,6 +27,7 @@ const LoginContent = styled(CardContent)`
 const LoginActions = styled(CardActions)`
   display: flex;
   justify-content: flex-end;
+  flex-direction: column;
 `;
 
 export default function Login() {
@@ -61,6 +62,12 @@ export default function Login() {
     }
   }
 
+  const loginGuest = e => {
+    e.preventDefault();
+
+    loginCall({ email: 'guest@gmail.com', password: '1234' }, dispatch);
+  }
+
   return (
     <div className="Flex">
       <form className="form" >
@@ -87,13 +94,24 @@ export default function Login() {
               >
               </TextField>
             </div>
+
             <LoginActions>
-              <Button className="button" type="submit" value="Login" style={{ width: '91px', height: '46px', padding: '10px' }} variant="contained" onClick={loginUser}>
+              <Button className="button" type="submit" value="Login" style={{ width: '91px', height: '46px' }} variant="contained" onClick={loginUser}>
                 {isFetching ? (<CircularProgress color="inherit" size="25px" />) : ("Log In")}
               </Button>
             </LoginActions>
+
+            <LoginActions>
+              <Button className="button" style={{
+                width: '200px', height: '46px'
+              }} variant="contained" onClick={loginGuest}>
+                {"Log In as guest"}
+              </Button>
+            </LoginActions>
+
           </LoginContent>
         </LoginCard>
+
         <RedirectCard>
           Don't have an account?
           <Link style={{ textDecoration: 'none', color: 'inherit' }} to="/register">
